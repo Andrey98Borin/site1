@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Услуги профессионального фотографа</title>
+    <!-- Подключение стилей Swiper -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <!-- Подключение основных стилей -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Шапка с каруселью -->
+    <header class="hero">
+        <div class="swiper-container hero-slider">
+            <div class="swiper-wrapper">
+                <!-- Слайды -->
+                <div class="swiper-slide">
+                    <img src="images/photo1.jpg" alt="Портфолио 1">
+                </div>
+                <div class="swiper-slide">
+                    <img src="images/photo2.jpg" alt="Портфолио 2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="images/photo3.jpg" alt="Портфолио 3">
+                </div>
+            </div>
+            <!-- Кнопки навигации -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Профессиональные фотосессии</h1>
+            <p>Сохраняем ваши лучшие моменты</p>
+            <a href="#portfolio" class="btn">Посмотреть портфолио</a>
+        </div>
+    </header>
+
+    <!-- О нас -->
+    <section id="about" class="section">
+        <h2>Обо мне</h2>
+        <p>Я - профессиональный фотограф, помогаю запечатлеть самые важные моменты вашей жизни. Мой стиль – это естественные эмоции и уникальные образы.</p>
+    </section>
+
+    <!-- Портфолио -->
+    <section id="portfolio" class="gallery">
+        <img src="images/photo1.jpg" alt="Фото 1">
+        <img src="images/photo2.jpg" alt="Фото 2">
+        <img src="images/photo3.jpg" alt="Фото 3">
+        <img src="images/photo4.jpg" alt="Фото 4">
+        <img src="images/photo5.jpg" alt="Фото 5">
+        <img src="images/photo6.jpg" alt="Фото 6">
+    </section>
+    
+    <!-- Модальное окно -->
+<div class="modal" id="modal">
+    <span class="close" id="modal-close">&times;</span>
+    <img class="modal-content" id="modal-image" alt="Просмотр изображения">
+    <div class="modal-controls">
+        <span class="prev" id="prev-btn">&#10094;</span>
+        <span class="next" id="next-btn">&#10095;</span>
+    </div>
+</div>
+
+    <!-- Контактная форма -->
+    <section id="contact" class="section">
+        <h2>Связаться со мной</h2>
+        <form>
+            <input type="text" placeholder="Ваше имя" required>
+            <input type="email" placeholder="Ваш e-mail" required>
+            <textarea placeholder="Ваше сообщение" required></textarea>
+            <button type="submit" class="btn">Отправить сообщение</button>
+        </form>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <p>&copy; 2024 Услуги фотографа. Все права защищены.</p>
+    </footer>
+
+    <!-- Подключение скрипта Swiper -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- Инициализация Swiper -->
+    <script>
+        const heroSlider = new Swiper('.hero-slider', {
+            loop: true,                // Бесконечная прокрутка
+            autoplay: {
+                delay: 5000,           // Задержка между сменами слайдов
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        // Получаем все изображения и модальное окно
+        const images = document.querySelectorAll('.gallery-img');
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
+        const closeBtn = document.getElementsByClassName('close')[0];
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+
+        let currentImageIndex = 0;
+
+        // Открытие модального окна при клике на картинку
+        images.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                currentImageIndex = index;
+                modal.style.display = "flex"; // Показываем модальное окно
+                modalImg.src = img.src; // Устанавливаем src модального изображения равным src картинки
+            });
+        });
+
+        // Закрытие модального окна при клике на крестик
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = "none";
+        });
+
+        // Закрытие модального окна при клике за его пределами
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+
+        // Функция для переключения изображения
+        function updateModalImage() {
+            modalImg.src = images[currentImageIndex].src;
+        }
+
+        // Переход к предыдущему изображению
+        prevBtn.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex === 0) ? images.length - 1 : currentImageIndex - 1;
+            updateModalImage();
+        });
+
+        // Переход к следующему изображению
+        nextBtn.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex === images.length - 1) ? 0 : currentImageIndex + 1;
+            updateModalImage();
+        });
+    </script>
+
+<script src="gallery.js"></script>
+</body>
+</html>
